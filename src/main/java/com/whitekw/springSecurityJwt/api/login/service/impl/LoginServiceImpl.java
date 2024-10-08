@@ -2,6 +2,8 @@ package com.whitekw.springSecurityJwt.api.login.service.impl;
 
 import com.whitekw.springSecurityJwt.api.login.dto.LoginRequestDto;
 import com.whitekw.springSecurityJwt.api.login.dto.LoginResponseDto;
+import com.whitekw.springSecurityJwt.api.login.exception.LoginException;
+import com.whitekw.springSecurityJwt.api.login.exception.LoginExceptionResult;
 import com.whitekw.springSecurityJwt.api.login.service.LoginService;
 import com.whitekw.springSecurityJwt.api.token.vo.RefreshToken;
 import com.whitekw.springSecurityJwt.api.user.dto.UserGetResponseDto;
@@ -26,7 +28,7 @@ public class LoginServiceImpl implements LoginService {
         UserGetResponseDto userInfo = userGetService.getUserByEmail(loginRequestDto.getEmail());
 
         if (!bCryptPasswordEncoder.matches(loginRequestDto.getPassword(), userInfo.password())) {
-            return null;
+            throw new LoginException(LoginExceptionResult.NOT_CORRECT);
         }
 
         String accessToken = jwtProvider.generateAccessToken(userInfo.userId());
