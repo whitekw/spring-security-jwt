@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
-public class AddUserRequestDto {
+public class UserAddRequestDto {
     private String name;
     private String email;
     private String password;

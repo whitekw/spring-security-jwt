@@ -17,18 +17,8 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup() {
-        return ResponseEntity.ok("");
-    }
-
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
         return ResponseEntity.ok(loginService.login(loginRequestDto));
-    }
-
-    @PostMapping("/test")
-    public ResponseEntity<String> test(@RequestBody LoginRequestDto loginRequestDto) {
-        return ResponseEntity.ok("test success");
     }
 }
