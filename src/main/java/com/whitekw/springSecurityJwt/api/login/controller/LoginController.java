@@ -3,6 +3,7 @@ package com.whitekw.springSecurityJwt.api.login.controller;
 import com.whitekw.springSecurityJwt.api.login.dto.LoginRequestDto;
 import com.whitekw.springSecurityJwt.api.login.dto.LoginResponseDto;
 import com.whitekw.springSecurityJwt.api.login.service.LoginService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto loginRequestDto) {
         LoginResponseDto loginResponseDto = loginService.login(loginRequestDto);
         return ResponseEntity.ok(loginResponseDto);
     }
