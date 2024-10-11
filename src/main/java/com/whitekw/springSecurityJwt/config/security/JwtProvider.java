@@ -20,7 +20,11 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    private static final long JWT_TOKEN_VALID = (long) 1000 * 60 * 60;
+    @Value("${jwt.accessTokenExpire}")
+    private long ACCESS_TOKEN_EXPIRE;
+
+    @Value("${jwt.refreshTokenExpire}")
+    private long REFRESH_TOKEN_EXPIRE;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -117,7 +121,7 @@ public class JwtProvider {
                 .setClaims(claims)
                 .setId(id)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALID))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRE))
                 .signWith(key)
                 .compact();
     }
@@ -143,7 +147,7 @@ public class JwtProvider {
     private String doGenerateRefreshToken(final String id) {
         return Jwts.builder()
                 .setId(id)
-                .setExpiration(new Date(System.currentTimeMillis() + (JWT_TOKEN_VALID * 2) * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRE))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .signWith(key)
                 .compact();

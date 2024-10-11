@@ -22,15 +22,20 @@ public class CustomAuthenticationEntryPointHandler implements AuthenticationEntr
         log.info("[CustomAuthenticationEntryPointHandler] :: {}", request.getRequestURL());
         log.info("[CustomAuthenticationEntryPointHandler] :: 토근 정보가 만료되었거나 존재하지 않음");
 
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         response.setStatus(ApiExceptionResult.ACCESS_DENIED.getStatus().value());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Requested-With");
 
         JsonObject returnJson = new JsonObject();
-        returnJson.addProperty("errorCode", "");
-        returnJson.addProperty("errorMsg", "");
+        returnJson.addProperty("errorCode", ApiExceptionResult.ACCESS_DENIED.getCode());
+        returnJson.addProperty("errorMsg", ApiExceptionResult.ACCESS_DENIED.getMessage());
 
-        PrintWriter out = response.getWriter();
-        out.print(returnJson);
+        PrintWriter writer = response.getWriter();
+        writer.print(returnJson);
+        writer.flush();
     }
 }

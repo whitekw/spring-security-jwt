@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RefreshTokenServiceImpl implements RefreshTokenService {
 
-    private JwtProvider jwtProvider;
+    private final JwtProvider jwtProvider;
 
     /**
      * refresh token을 이용하여 access token, refresh token 재발급
